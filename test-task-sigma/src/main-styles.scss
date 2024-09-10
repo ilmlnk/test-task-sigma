@@ -1,0 +1,32 @@
+$purple: #a59ad7;
+$pink: #fe76e2;
+$blue: #37c7f2;
+$green: #0bf387;
+
+$light-red: #fff3f3;
+$light: #fafcff;
+
+$input-background-color: #f3f5fa;
+
+
+
+@use "bulma/sass" with (
+  $family-primary: '"Nunito", sans-serif',
+  $primary: $purple,
+  $link: $blue,
+  $control-border-width: 2px,
+  $input-shadow: none,
+
+  $body-background-color: $light,
+);
+
+
+// global
+html, body {
+    height: 100%;
+    font-size: 18px !important;
+    overflow: hidden;
+}
+
+@import url("https://fonts.googleapis.com/css?family=Nunito:400,700");
+

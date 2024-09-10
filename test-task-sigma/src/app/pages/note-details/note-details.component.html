@@ -1,0 +1,25 @@
+<div class="form-container">
+    <form [formGroup]="noteForm" (ngSubmit)="onSubmit(noteForm)">
+        <div class="field">
+            <label class="label">Title</label>
+            <div class="control">
+                <input type="text" required class="input theme-light">
+            </div>
+        </div>
+
+        <div class="field ">
+            <label class="label">Body</label>
+            <div class="control">
+                <textarea class="textarea theme-light"></textarea>
+            </div>
+        </div>
+        <div class="field is-grouped is-pulled-right">
+            <div class="control">
+                <button type="button" (click)="onCancel()" class="theme-light button cancel-button is-text">Cancel</button>
+            </div>
+            <div class="control">
+                <button type="submit" class="theme-light button save-button is-success">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
