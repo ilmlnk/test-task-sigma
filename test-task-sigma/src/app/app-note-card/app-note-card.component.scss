@@ -24,6 +24,10 @@
             align-items: center;
             justify-content: space-between;
 
+            .edit-title-input {
+                margin-right: 1em;
+            }
+
             .button-container {
                 display: flex;
                 gap: 10px;
@@ -111,6 +115,22 @@
 
         @media (min-width: 1024px) {
             font-size: 28px;
+        }
+    }
+
+    .buttons {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        margin-top: 1em;
+
+        .button {
+            padding: 5px;
+            border: none;
+        }
+
+        .save-button {
+            background-color: $green;
+            color: white;
         }
     }
 }

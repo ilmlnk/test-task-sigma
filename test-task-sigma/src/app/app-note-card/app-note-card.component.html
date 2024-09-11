@@ -1,15 +1,15 @@
 <div #container class="note-card-container">
     <div class="note-card-content">
         <div class="note-card-header">
-            <h1 class="note-card-title">{{ title }}</h1>
+            <h1 class="note-card-title" *ngIf="!isEditing">{{ title }}</h1>
 
             <div class="button-container">
-                <div class="x-button"></div>
-                <div class="edit-button"></div>
+                <div (click)="onDelete()" class="x-button"></div>
+                <div (click)="onEdit(noteId)" class="edit-button"></div>
             </div>
         </div>
         <div appEllipsis [lines]="2" class="note-card-body">
-            {{ body }}
+            <p>{{ body }}</p>
         </div>
     </div>
 </div>

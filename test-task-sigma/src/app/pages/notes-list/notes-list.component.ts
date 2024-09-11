@@ -19,6 +19,7 @@ export class NotesListComponent implements OnInit {
 
   ngOnInit() {
       this.notes = this.notesService.getAll();
+      console.log(this.notes);
   }
   onAdd() {
     this.router.navigate(['/new']);

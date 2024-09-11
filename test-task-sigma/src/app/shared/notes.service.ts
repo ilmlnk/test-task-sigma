@@ -5,7 +5,8 @@ import { Note } from './note.model';
   providedIn: 'root'
 })
 export class NotesService {
-  notes: Note[] = new Array<Note>();
+  private notes: Note[] = new Array<Note>();
+  private nextId: number = 1;
 
   constructor() { }
 
@@ -14,7 +15,7 @@ export class NotesService {
   }
 
   get(id: number) {
-    return this.notes[id];
+    return this.notes.find(note => note.id === id);
   }
 
   getId(note: Note) {
@@ -22,18 +23,20 @@ export class NotesService {
   }
 
   add(note: Note) {
-    let newLength = this.notes.push(note);
-    let index = newLength - 1;
-    return index;
+    note.id = this.nextId++;
+    this.notes.push(note);
+    return note.id;
   }
 
   update(id: number, title: string, body: string) {
-    let note = this.notes[id];
-    note.title = title;
-    note.body = body;
+    const note = this.notes.find(note => note.id === id);
+    if (note) {
+      note.title = title;
+      note.body = body;
+    }
   }
 
   delete(id: number) {
-    this.notes.splice(id, 1);
+    this.notes = this.notes.filter(note => note.id !== id);
   }
 }

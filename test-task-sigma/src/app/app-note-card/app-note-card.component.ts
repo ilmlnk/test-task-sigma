@@ -2,29 +2,49 @@ import { Component } from '@angular/core';
 import { EllipsisDirective } from '../directives/ellipsis-directive.directive';
 import { Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import EventEmitter from 'events';
+import { EventEmitter } from '@angular/core';
 import { Note } from '../shared/note.model';
 import { Router } from '@angular/router';
 import { NotesService } from '../shared/notes.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-note-card',
   standalone: true,
-  imports: [EllipsisDirective, CommonModule],
+  imports: [EllipsisDirective, CommonModule, FormsModule],
   templateUrl: './app-note-card.component.html',
   styleUrl: './app-note-card.component.scss'
 })
 export class AppNoteCardComponent {
-  notes: Note[] = [];
+  notes: Note[] = new Array<Note>();
 
-  @Input() title: string = ''; 
-  @Input() body: string = ''; 
+  @Input() title: string = '';
+  @Input() body: string = '';
   @Input() noteId: number = 0;
 
-  constructor(private router: Router, private notesService: NotesService) { }
+  @Output() delete = new EventEmitter<number>();
+  @Output() update = new EventEmitter<{ id: number, title: string, body: string }>();
 
-  onDelete(noteId: number) {
-    this.notesService.delete(noteId); 
-    this.notes = this.notesService.getAll();
+  isEditing: boolean = false;
+  editTitle: string = '';
+  editBody: string = '';
+
+  constructor(private router: Router) { }
+
+  ngOnInit() {
+    console.log('Note ID', this.noteId);
   }
+
+  onDelete() {
+    this.delete.emit(this.noteId);
+  }
+
+  onEdit(noteId: number) {
+    if (noteId) {
+      this.router.navigate(['', noteId]);
+    } else {
+      console.error('Invalid note ID: ' + noteId);
+    }
+  }
+
 }
