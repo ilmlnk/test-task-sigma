@@ -2,10 +2,20 @@
     padding-top: 50px;
     max-width: 500px;
     margin: auto;
-}
 
-.field {
-    padding-top: 20px;
+    .field {
+        padding-top: 20px;
+    }
+
+    .input.is-invalid,
+    .textarea.is-invalid {
+        border-color: #ff3860;
+        box-shadow: none;
+    }
+
+    .help.is-danger {
+        color: #ff3860;
+    }
 }
 
 .label {

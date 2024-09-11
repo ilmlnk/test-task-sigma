@@ -1,21 +1,24 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-note-details',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './note-details.component.html',
   styleUrl: './note-details.component.scss'
 })
 export class NoteDetailsComponent {
-  noteForm = new FormGroup({
-    title: new FormControl('', Validators.required),
-    body: new FormControl('', Validators.required)
-  });
+  noteForm: FormGroup;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private fb: FormBuilder) {
+    this.noteForm = this.fb.group({
+      title: ['', Validators.required],
+      body: [''],
+    });
+  }
 
   onSubmit(noteForm: FormGroup) {
     if (noteForm.valid) {

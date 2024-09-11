@@ -3,8 +3,12 @@
         <div class="field">
             <label class="label">Title</label>
             <div class="control">
-                <input type="text" required class="input theme-light">
+                <input type="text" formControlName="title" required class="input theme-light"
+                    [ngClass]="{'is-invalid': noteForm.get('title')?.invalid && noteForm.get('title')?.touched}">
             </div>
+            <p class="help is-danger" *ngIf="noteForm.get('title')?.invalid && noteForm.get('title')?.touched">
+                Title is required.
+            </p>
         </div>
 
         <div class="field ">
@@ -15,7 +19,8 @@
         </div>
         <div class="field is-grouped is-pulled-right">
             <div class="control">
-                <button type="button" (click)="onCancel()" class="theme-light button cancel-button is-text">Cancel</button>
+                <button type="button" (click)="onCancel()"
+                    class="theme-light button cancel-button is-text">Cancel</button>
             </div>
             <div class="control">
                 <button type="submit" class="theme-light button save-button is-success">Save</button>
