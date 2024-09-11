@@ -17,7 +17,11 @@
 
     <div class="notes-list">
         <div *ngFor="let note of notes">
-            <app-note-card [title]="note.title" [body]="note.body"></app-note-card>
+            <app-note-card 
+            [title]="note.title" 
+            [body]="note.body"
+            [noteId]="note.id"
+            ></app-note-card>
         </div>
     </div>
 

@@ -32,6 +32,7 @@ export class NoteDetailsComponent implements OnInit {
   onSubmit() {
     if (this.noteForm.valid) {
       const newNote: Note = {
+        id: this.notesService.getId(this.note),
         title: this.noteForm.get('title')?.value,
         body: this.noteForm.get('body')?.value
       };
