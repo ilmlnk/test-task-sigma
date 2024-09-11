@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { ReactiveFormsModule, FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Note } from '../../shared/note.model';
+import { NotesService } from '../../shared/notes.service';
 
 @Component({
   selector: 'app-note-details',
@@ -10,33 +12,36 @@ import { Router } from '@angular/router';
   templateUrl: './note-details.component.html',
   styleUrl: './note-details.component.scss'
 })
-export class NoteDetailsComponent {
+export class NoteDetailsComponent implements OnInit {
+  note: Note;
   noteForm: FormGroup;
 
-  constructor(private router: Router, private fb: FormBuilder) {
+  constructor(
+    private notesService: NotesService,
+    private router: Router,
+    private fb: FormBuilder
+  ) { }
+
+  ngOnInit() {
     this.noteForm = this.fb.group({
-      title: ['', Validators.required],
-      body: [''],
+      title: ['', Validators.required], 
+      body: ['']
     });
   }
 
-  onSubmit(noteForm: FormGroup) {
-    if (noteForm.valid) {
-      const note = noteForm.value;
-      const existingNotes = JSON.parse(localStorage.getItem('notes') || '[]');
-      existingNotes.push(note);
+  onSubmit() {
+    if (this.noteForm.valid) {
+      const newNote: Note = {
+        title: this.noteForm.get('title')?.value,
+        body: this.noteForm.get('body')?.value
+      };
 
-      localStorage.setItem('notes', JSON.stringify(existingNotes));
-
-      console.log('Saved note: ', note);
-      this.noteForm.reset();
-
+      this.notesService.add(newNote);
       this.router.navigate(['/']);
     }
   }
 
-  onCancel() {
-    this.noteForm.reset();
-    this.router.navigate(['/']);
+    onCancel() {
+      this.router.navigate(['/']);
+    }
   }
-}
