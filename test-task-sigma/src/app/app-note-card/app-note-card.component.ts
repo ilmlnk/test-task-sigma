@@ -22,7 +22,6 @@ export class AppNoteCardComponent {
   @Input() body: string = '';
   @Input() noteId: number = 0;
 
-  @Output() delete = new EventEmitter<number>();
   @Output() update = new EventEmitter<{ id: number, title: string, body: string }>();
 
   isEditing: boolean = false;
@@ -35,9 +34,6 @@ export class AppNoteCardComponent {
     console.log('Note ID', this.noteId);
   }
 
-  onDelete() {
-    this.delete.emit(this.noteId);
-  }
 
   onEdit(noteId: number) {
     if (noteId) {
