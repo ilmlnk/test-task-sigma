@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AppNoteCardComponent } from '../../app-note-card/app-note-card.component';
 import { Router } from '@angular/router';
 import { Note } from '../../shared/note.model';
@@ -15,7 +15,11 @@ import { CommonModule } from '@angular/common';
 export class NotesListComponent implements OnInit {
   notes: Note[] = new Array<Note>();
 
-  constructor(private router: Router, private notesService: NotesService) {}
+  constructor(
+    private router: Router, 
+    private notesService: NotesService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
       this.notes = this.notesService.getAll();
@@ -23,5 +27,11 @@ export class NotesListComponent implements OnInit {
   }
   onAdd() {
     this.router.navigate(['/new']);
+  }
+
+  onDelete(noteId: number) {
+    this.notesService.delete(noteId); 
+    this.cdr.detectChanges();
+    this.notes = this.notesService.getAll();
   }
 }

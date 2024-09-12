@@ -23,6 +23,7 @@ export class AppNoteCardComponent {
   @Input() noteId: number = 0;
 
   @Output() update = new EventEmitter<{ id: number, title: string, body: string }>();
+  @Output() delete = new EventEmitter<number>();
 
   isEditing: boolean = false;
   editTitle: string = '';
@@ -43,4 +44,11 @@ export class AppNoteCardComponent {
     }
   }
 
+  onDelete(noteId: number) {
+    if (noteId) {
+      this.delete.emit(noteId);
+    } else {
+      console.error('Invalid note ID: ' + noteId);
+    }
+  }
 }

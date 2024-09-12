@@ -21,6 +21,7 @@
             [title]="note.title" 
             [body]="note.body"
             [noteId]="note.id"
+            (delete)="onDelete($event)"
             ></app-note-card>
         </div>
     </div>
