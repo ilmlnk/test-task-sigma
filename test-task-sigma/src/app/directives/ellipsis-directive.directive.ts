@@ -11,7 +11,7 @@ export class EllipsisDirective implements AfterViewInit, OnDestroy {
   constructor(private el: ElementRef, private renderer: Renderer2) { }
 
 
-  @HostListener('window:resize') 
+  @HostListener('window:resize')
   onResize() {
     this.applyEllipsis();
   }
@@ -31,17 +31,42 @@ export class EllipsisDirective implements AfterViewInit, OnDestroy {
     const element = this.el.nativeElement;
     if (typeof window !== 'undefined' && typeof getComputedStyle === 'function') {
       const style = getComputedStyle(element);
+
+      element.style.wordBreak = 'break-word';
+      element.style.overflowWrap = 'break-word';
+
       const lineHeight = parseInt(style.lineHeight, 10);
       const maxHeight = lineHeight * this.lines;
 
+      const originalText = element.innerText;
+
+      element.style.maxHeight = `${maxHeight}px`;
+      element.style.overflow = 'hidden';
+
       if (element.scrollHeight > maxHeight) {
-        let text = element.innerText;
-        while (element.scrollHeight > maxHeight && text.length > 0) {
-          text = text.slice(0, -1);
-          element.innerText = text + '...';
-        }
+        const truncatedText = this.truncateText(originalText, maxHeight, element);
+        element.innerText = truncatedText;
       }
     }
+  }
+
+  private truncateText(text: string, maxHeight: number, element: HTMLElement): string {
+    let low = 0;
+    let high = text.length;
+    let middle;
+
+    while (low < high) {
+      middle = Math.floor((low + high) / 2);
+      element.innerText = text.slice(0, middle) + '...';
+
+      if (element.scrollHeight <= maxHeight) {
+        low = middle + 1;
+      } else {
+        high = middle;
+      }
+    }
+
+    return text.slice(0, high - 1) + '...';
   }
 
   private setupResizeObserver() {
