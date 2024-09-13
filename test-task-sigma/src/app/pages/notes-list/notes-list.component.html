@@ -2,7 +2,8 @@
     <div class="search-bar-container">
         <div class="field">
             <p class="control has-icons-left">
-                <input class="input theme-light" type="text" placeholder="Filter">
+                <input class="input theme-light" type="text" placeholder="Search" [(ngModel)]="searchQuery">
+                <!-- Search bar to find notes -->
                 <span class="icon is-small is-left">
                     <svg style="
                     height: 1em;" xmlns="http://www.w3.org/2000/svg"
@@ -16,13 +17,11 @@
     </div>
 
     <div class="notes-list">
-        <div *ngFor="let note of notes">
-            <app-note-card 
-            [title]="note.title" 
-            [body]="note.body"
-            [noteId]="note.id"
-            (delete)="onDelete($event)"
-            ></app-note-card>
+        <div *ngFor="let note of filteredNotes">
+            <app-note-card [title]="note.title" [body]="note.body" [noteId]="note.id" (delete)="onDelete($event)">
+                <div [innerHTML]="highlightText(note.title, searchQuery)"></div>
+                <div [innerHTML]="highlightText(note.body, searchQuery)"></div>
+            </app-note-card>
         </div>
     </div>
 

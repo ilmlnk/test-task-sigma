@@ -5,11 +5,12 @@ import { Note } from '../../shared/note.model';
 import { NotesService } from '../../shared/notes.service';
 import { CommonModule } from '@angular/common';
 import { transition, trigger, style, animate } from '@angular/animations';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-notes-list',
   standalone: true,
-  imports: [AppNoteCardComponent, CommonModule],
+  imports: [AppNoteCardComponent, CommonModule, FormsModule],
   templateUrl: './notes-list.component.html',
   styleUrl: './notes-list.component.scss',
   animations: [
@@ -17,7 +18,7 @@ import { transition, trigger, style, animate } from '@angular/animations';
 })
 export class NotesListComponent implements OnInit {
   notes: Note[] = new Array<Note>();
-  filteredNotes: Note[] = new Array<Note>();
+  searchQuery: string = '';
 
   constructor(
     private router: Router,
@@ -39,35 +40,19 @@ export class NotesListComponent implements OnInit {
     this.notes = this.notesService.getAll();
   }
 
-  filter(query: string) {
-    query = query.toLowerCase().trim();
-    let allResults: Note[] = new Array<Note>();
-    let terms: string[] = query.split(' ');
-    terms = this.removeDuplicates(terms);
-    terms.forEach(term => {
-      let results = this.relevantNotes(term);
-      allResults = [...allResults, ...results];
-    });
-    let uniqueResults = this.removeDuplicates(allResults);
-
+  get filteredNotes() {
+    return this.notes.filter(note =>
+      note.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+      note.body.toLowerCase().includes(this.searchQuery.toLowerCase())
+    );
   }
 
-  removeDuplicates(arr: Array<any>): Array<any> {
-    let uniqueResults: Set<any> = new Set<any>();
-    arr.forEach((e) => uniqueResults.add(e));
+  highlightText(text: string, searchQuery: string) {
+    if (!searchQuery) {
+      return text;
+    }
 
-    return Array.from(uniqueResults);
-  }
-
-  relevantNotes(query: string) : Array<Note> {
-    query = query.toLowerCase().trim();
-    let relevantNotes = this.notes.filter(note => {
-      if (note.body.toLowerCase().includes(query) || note.title.toLowerCase().includes(query)) {
-        return true;
-      }
-      return false;
-    })
-
-    return relevantNotes;
+    const regex = new RegExp(`(${searchQuery})`, 'gi');
+    return text.replace(regex, '<mark>$1</mark>');
   }
 }
