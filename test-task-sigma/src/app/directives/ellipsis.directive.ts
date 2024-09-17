@@ -5,16 +5,10 @@ import { Directive, ElementRef, HostListener, Input, Renderer2, AfterViewInit, O
   standalone: true
 })
 export class EllipsisDirective implements AfterViewInit, OnDestroy {
-  @Input() lines: number = 2;
+  @Input() lines: number = 3;
   private resizeObserver: ResizeObserver;
 
-  constructor(private el: ElementRef, private renderer: Renderer2) { }
-
-
-  @HostListener('window:resize')
-  onResize() {
-    this.applyEllipsis();
-  }
+  constructor(private el: ElementRef) { }
 
   ngOnDestroy() {
     if (this.resizeObserver) {
@@ -23,7 +17,6 @@ export class EllipsisDirective implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.applyEllipsis();
     this.setupResizeObserver();
   }
 

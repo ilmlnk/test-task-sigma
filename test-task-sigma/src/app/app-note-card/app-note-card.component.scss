@@ -87,6 +87,10 @@
             font-size: 18px;
             font-weight: bold;
             color: $purple;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
 
             @media (min-width: 600px) {
                 font-size: 20px;
@@ -102,7 +106,6 @@
         margin-top: 15px;
         display: -webkit-box;
         -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: normal;
@@ -132,11 +135,5 @@
             background-color: $green;
             color: white;
         }
-    }
-}
-
-@media (max-width: 768px) {
-    .note-card-body {
-        -webkit-line-clamp: 1;
     }
 }

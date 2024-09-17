@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { EllipsisDirective } from '../directives/ellipsis-directive.directive';
+import { EllipsisDirective } from '../directives/ellipsis.directive';
 import { Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EventEmitter } from '@angular/core';
